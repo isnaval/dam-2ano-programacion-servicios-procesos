@@ -1,0 +1,17 @@
+ El volumen de la unidad C es Windows
+ El n�mero de serie del volumen es: C815-15CC
+
+ Directorio de C:\Users\ismae\OneDrive\Documentos\CURSOS\014 DAM\2 A�O\Programacion de servicios y procesos\EJERCICIOS\tema02\T2S2EjerciciosAprendizaje
+
+21/10/2025  15:51    <DIR>          .
+21/10/2025  13:48    <DIR>          ..
+21/10/2025  15:51                 0 salida.txt
+21/10/2025  15:51             2.289 T2S1P008GuardarEnFichero.class
+21/10/2025  15:49             2.079 T2S1P008GuardarEnFichero.java
+20/10/2025  18:57               590 T2S1P009ListaProcesos.java
+20/10/2025  18:57               631 T2S1P010EnviarDatos.java
+20/10/2025  18:57               711 T2S1P011ComunicacionBi.java
+20/10/2025  18:57               542 T2S1P011Receptor.java
+20/10/2025  18:57             1.022 T2S1P012MiniBash.java
+               8 archivos          7.864 bytes
+               2 dirs  401.914.404.864 bytes libres

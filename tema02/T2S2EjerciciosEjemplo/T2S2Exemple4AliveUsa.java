@@ -2,8 +2,11 @@ import java.lang.*;
 public class T2S2Exemple4AliveUsa {
 
 /**
+ * delcaro la funcion main
+ * declaro un objeto a valor null donde se le asigna posteriomrnet el valor de hijo 1
+ * obtengo diversa informacion del hioj en función de metodos de Thread
+ * inicio el hijo
  * 
-
  */
 
 

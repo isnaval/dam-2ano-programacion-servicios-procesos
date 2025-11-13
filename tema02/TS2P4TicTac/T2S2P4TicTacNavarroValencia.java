@@ -1,3 +1,4 @@
+package tema02.TS2P4TicTac;
 public class T2S2P4TicTacNavarroValencia extends Thread {
 
     public static void main(String[] args) {

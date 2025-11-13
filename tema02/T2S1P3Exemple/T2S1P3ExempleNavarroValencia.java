@@ -1,3 +1,4 @@
+package tema02.T2S1P3Exemple;
 import java.io.*;
 /**
      * FUNCION PRINCIPAL

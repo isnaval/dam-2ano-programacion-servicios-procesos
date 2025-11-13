@@ -1,3 +1,4 @@
+package tema02.T2S1P1Quasibash;
 import java.io.*;
 
 public class T2S1P1QuasibashNavarroValencia {

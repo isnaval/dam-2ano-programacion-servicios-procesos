@@ -1,25 +1,38 @@
+package tema03.tema3Desarrolllados;
 /**
  * EXPLICACION DEL FLUJO QUE HE DEFINIDO: 
- * 1. Declaración de variables que son el puerto fijo y el host por defecto.
+ * 1. declaro las varibale de puerto y host pr defecto
  * 2. El main verifica si hay argumentos: si sí, ejecuta Client con el host; si no, Servidor.
  * 
  * 3. Generamos la clase Client, 
- * 3.1 Declaro la variable host y en el constructor creo el socket cliente, flujos de entrada y salida.
- * 3.2. Declaro las variables y la funcionidad por pasos
- * 3.3. Con un try-catch-finally, envía mensajes y  lee respuesta y la muestra.
- * 3.4 & 3.5 manejo excepciones y cierro y libero recursos en orden.
+ * 3.1. Declaro la variable host y en el constructor creo el socket cliente, flujos de entrada y salida.
+ * 3.2. Incorporo Scanner para lectura por teclado (novedad en T3P3).
+ * 3.3. Implemento bucle de lectura de teclado hasta recibir "Adeu":
+ *      - Lee mensaje por teclado
+ *      - Envía mensaje al servidor
+ *      - Lee respuesta del servidor
+ *      - Muestra respuesta
+ * 3.4. Al recibir "Adeu", rompe el bucle y cierra conexión.
+ * 3.5. Manejo de excepciones y liberación de recursos en orden.
  * 
- * 4. Generamos la Clase Servidor,
- * 4.1. Declaro las variables del servidor en el constructor Servidor y defino funcionalidad con un try-catch-finally
- * 4.2. Cuando recibe "Adeu", responde y cierra la conexión del cliente y el servidor.
- * 4.3. Manejo de excepciones y cierres en orden
+ * 4. Generamos la Clase Servidor:
+ * 4.1. Implemento servidor eterno con bucle while(true) para múltiples clientes.
+ * 4.2. Para cada cliente:
+ *      - Acepta conexión
+ *      - Lee mensajes hasta recibir "Adeu"
+ *      - Responde según protocolo establecido en T3P2
+ * 4.3. Al recibir "Adeu", responde "Fins després" y cierra conexión con cliente.
+ * 4.4. Mantiene servidor activo para siguiente conexión.
+ * 4.5. Manejo de excepciones y cierre de recursos por cliente.
  */
+
+
 import java.io.*;
 import java.net.*;
 
 public class T3S1P2ClientServidor1NAVARRO {
     
-    // 1. Declaración de variables: Puerto fijo (>1023, como en el ejemplo del profe pág. 17).
+    // 1. Declaración de variables que son eluerto fijo y el host por defecto
     static final int PUERTO = 5000; 
     static final String HOST_DEFAULT = "localhost"; 
     

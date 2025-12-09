@@ -1,37 +1,51 @@
+package tema03.tema3Desarrolllados;
 /**
- * EXPLICACION DEL FLUJO QUE HE DEFINIDO: 
+ * EXPLICACION DEL FLUJO QUE HE DEFINIDO:
+ * 
  * 1. Declaración de variables: Se define el puerto fijo y el host por defecto.
- * 2. Creamos un programa modificado de T3P2 con input de teclat en client y servidor eterno.
- * 2.1. El main verifica si hay argumentos: si sí, ejecuta Client con el host; si no, Servidor.
- * 2.2. Clase Client: Se conecta al servidor, lee de teclat con Scanner hasta "Adeu", envía cada mensaje y muestra respuesta.
- * 2.3. En Client, loop while: Lee línea de teclat, envía, si "Adeu" rompe; lee respuesta y muestra.
- * 2.4. Al "Adeu", envía, lee "Fins després", cierra conexión y acaba.
- * 2.5. Clase Servidor: Crea ServerSocket, bucle while(true) para múltiples clients, acepta uno por vez.
- * 2.6. En Servidor, para cada client: Loop while hasta "Adeu", lee mensaje, muestra, responde fijo (Hola -> "Hola sóc el servidor", etc.).
- * 2.7. Al "Adeu", responde "Fins després", cierra client (no servidor), sigue esperando siguiente.
- * 2.8. Manejo de excepciones simple en try-catch para IOException.
- * 2.9. Cierres en orden: Flujos primero, socket después (pág. 27 del Bloc 1).
+ * 2. El main verifica si hay argumentos: si sí, ejecuta Client con el host; si no, Servidor.
+ * 
+ * 3. Generamos la clase Client, 
+ * 3.1. Declaro la variable host y en el constructor creo el socket cliente, flujos de entrada y salida.
+ * 3.2. REalizo la iteracion de lectura de teclado hasta recibir "Adeu":
+ *      - Lee mensaje por teclado
+ *      - Envía mensaje al servidor
+ *      - Lee respuesta del servidor
+ *      - Muestra respuesta (A MODO DE CRUD)
+ *      - Al recibir "Adeu", rompe el bucle y cierra conexión.
+ * 3.5. Manejo de excepciones y Y CIERRE para liberar recursos
+ * 
+ * 4. Defino la Clase Servidor
+ * 4.1. Implemento servidor eterno con bucle while(true) para muchos clientes.
+ * 4.2. las funcionalidades que pasaran para cada cliente: 
+ *      - Acepta conexión
+ *      - Lee mensajes hasta recibir "Adeu"
+ *      - si recibe "Adeu", responde "Fins després" y cierra conexión con cliente.
+ * 4.3. Defino el manejo de excepciones y cierre de recursos por cliente.
  */
+
+
 import java.io.*;
 import java.net.*;
-import java.util.Scanner;  // Para input teclat (nuevo en T3P3).
+import java.util.Scanner; 
 
 public class T3S1P3ClientServidor2NAVARRO {
     
-    // 1. Declaración de variables: Puerto fijo y host por defecto.
+    // 1. Declaración de variables del puerto fijo y host por defecto.
     static final int PUERTO = 5000;
     static final String HOST_DEFAULT = "localhost";
     
-    // 2.1. El main verifica si hay argumentos.
-    public static void main(String[] args) {
-        if (args.length > 0) {
-            new Client(args[0]);
-        } else {
-            new Servidor();
-        }
+    // 2. Defino la funcion principal y si hay argumento inicio Cliente y si no hay argumentos inicio el servidor
+public static void main(String[] args) {
+    if (args.length > 0) {
+        new Client(args[0]);
+    } else {
+        new Client(HOST_DEFAULT); 
     }
+}
     
-    // 2.2. Clase Client: Lee de teclat hasta "Adeu".
+    // 3. Defino la clase Client
+    //3.1 Declaro la variable host y en el constructor y creo el socket cliente, flujos de entrada y salida.
     static class Client {
         String host;
         
@@ -43,14 +57,13 @@ public class T3S1P3ClientServidor2NAVARRO {
             Scanner sc = null;
             
             try {
-                // PAS 1: Conecta y crea flujos (pág. 17-23).
                 socketCliente = new Socket(host, PUERTO);
                 System.out.println("Cliente conectado a " + host + ":" + PUERTO);
                 salida = new DataOutputStream(socketCliente.getOutputStream());
                 entrada = new DataInputStream(socketCliente.getInputStream());
                 sc = new Scanner(System.in);
                 
-                // 2.3. Loop while: Lee teclat, envía, lee respuesta.
+                // 3.2. REalizo la iteracion de lectura de teclado hasta recibir "Adeu"
                 System.out.println("Escribe mensajes (Adeu para acabar):");
                 while (true) {
                     String mensaje = sc.nextLine();
@@ -59,15 +72,13 @@ public class T3S1P3ClientServidor2NAVARRO {
                     String respuesta = entrada.readUTF();
                     System.out.println("Servidor: " + respuesta);
                     if ("Adeu".equals(mensaje)) {
-                        break;  // 2.4. Acaba al "Adeu".
+                        break; 
                     }
                 }
-                
+            // 3.5. Manejo de excepciones y Y CIERRE para liberar recursos
             } catch (IOException e) {
-                // 2.8. Manejo simple.
                 System.out.println("Error en cliente: " + e.getMessage());
             } finally {
-                // 2.9. Cierres.
                 try {
                     if (sc != null) sc.close();
                     if (salida != null) salida.close();
@@ -80,24 +91,22 @@ public class T3S1P3ClientServidor2NAVARRO {
         }
     }
     
-    // 2.5. Clase Servidor: Eterno con while(true) para múltiples clients.
+    // 4. Clase Servidor con el constructor Servidor e inicio el socker con sus flujos de entrada y salida
     static class Servidor {
+        // 4.1. Implemento servidor eterno con bucle while(true) para muchos clientes.
         Servidor() {
             ServerSocket miServicio = null;
             
             try {
-                // PAS 1: Crea ServerSocket (pág. 28).
                 miServicio = new ServerSocket(PUERTO);
                 System.out.println("Servidor eterno iniciado en puerto " + PUERTO);
                 
-                // 2.5. Bucle eterno para múltiples clients.
                 while (true) {
                     Socket socketServicio = null;
                     DataInputStream entrada = null;
                     DataOutputStream salida = null;
                     
                     try {
-                        // 2.6. Acepta client y loop mensajes hasta "Adeu".
                         socketServicio = miServicio.accept();
                         System.out.println("Nuevo client conectado: " + socketServicio.getInetAddress().getHostAddress());
                         entrada = new DataInputStream(socketServicio.getInputStream());
@@ -106,7 +115,7 @@ public class T3S1P3ClientServidor2NAVARRO {
                         String mensaje;
                         while (!(mensaje = entrada.readUTF()).equals("Adeu")) {
                             System.out.println("Mensaje del client: " + mensaje);
-                            // 2.6. Responde fijo (esquema T3P2, orden no importa).
+                            // 4.2. las funcionalidades que pasaran para cada cliente
                             if ("Hola".equals(mensaje)) {
                                 salida.writeUTF("Hola soc el servidor");
                             } else if ("Com estas?".equals(mensaje)) {
@@ -118,8 +127,7 @@ public class T3S1P3ClientServidor2NAVARRO {
                             }
                             salida.flush();
                         }
-                        
-                        // 2.7. Al "Adeu", responde "Fins després" y cierra client.
+                        // si recibe "Adeu", responde "Fins després" y cierra conexión con cliente
                         System.out.println("Adeu rebut, tancant client.");
                         salida.writeUTF("Fins després");
                         salida.flush();
@@ -127,7 +135,7 @@ public class T3S1P3ClientServidor2NAVARRO {
                     } catch (IOException e) {
                         System.out.println("Error con client: " + e.getMessage());
                     } finally {
-                        // 2.9. Cierres por client.
+
                         try {
                             if (salida != null) salida.close();
                             if (entrada != null) entrada.close();
@@ -138,7 +146,7 @@ public class T3S1P3ClientServidor2NAVARRO {
                         }
                     }
                 }
-                // No arriba aquí (etern).
+                // 4.3. Defino el manejo de excepciones y cierre de recursos por cliente.
             } catch (IOException e) {
                 System.out.println("Error inici servidor: " + e.getMessage());
             } finally {

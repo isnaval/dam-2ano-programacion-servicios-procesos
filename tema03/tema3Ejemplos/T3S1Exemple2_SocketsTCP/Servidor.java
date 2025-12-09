@@ -1,8 +1,9 @@
+package tema03.tema03Ejemplos.T3S1Exemple2_SocketsTCP;
 import java.io.*;
 import java.net.*;
 
-// SERVIDOR ESPERA CONNEXIONS A LES QUE ATENDRÀ
-// SERVIDOR SALUDARÀ AMB LA FRASE "Hola client"
+// SERVIDOR ESPERA CONNEXIONS A LES QUE ATENDRï¿½
+// SERVIDOR SALUDARï¿½ AMB LA FRASE "Hola client"
 class Servidor {
 
 	// PORT EN EL QUE ESPERA CONNEXIONS
@@ -15,7 +16,7 @@ class Servidor {
 			System.out.println("Escolte al port " + PORT);
 
 			for (int numCli = 0; numCli < 3; numCli++) {
-				// MÈTODE accept() CREA UN NOU Socket PER A COMUNICAR-SE AMB EL CLIENT
+				// Mï¿½TODE accept() CREA UN NOU Socket PER A COMUNICAR-SE AMB EL CLIENT
 				Socket sCliente = ssServidor.accept();
 
 				System.out.println("Serveisc al client");
